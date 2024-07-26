@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="statistics">
+        <div class="statistics-header">
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span class="slider"></span>
+            </label>
+            <div class="input-group">
+                <label for="ifilter"></label>
+                <input type="text" id="ifilter" placeholder="IP Filtre">
+
+                <label for="mfilter"></label>
+                <input type="text" id="mfilter" placeholder="Message filtre">
+
+                <label for="logsayisi"></label>
+                <select id="logsayisi">
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="1000">1000</option>
+                </select>
+
+                <label for="refresh"></label>
+                <select id="refresh">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="Durdur">Durdur</option>
+                </select>
+                <div id="update-message">Veri Güncellendi</div>
+            </div>
+            <div id="copy-notification">Mesaj Kopyalandı!</div>
+            <a href="#" id="download-csv">CSV Olarak İndir</a>
+        </div>
+        <div class="chart-container">
+            <canvas id="bar-chart"></canvas>
+            <canvas id="pie-chart"></canvas>
+        </div>
+        
+        <div id="log-entries" class="mui-table log-entries-scrollable">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
