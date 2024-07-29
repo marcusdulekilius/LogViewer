@@ -19,6 +19,36 @@ body {
     color: #ffffff;
 }
 
+.hamburger-menu {
+    position: relative;
+}
+
+#menu-icon {
+    cursor: pointer;
+}
+
+.menu-items {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.menu-items a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+}
+
+.menu-items a:hover {
+    background-color: #f0f0f0;
+}
+
 .switch {
     position: absolute;
     top: 47px;

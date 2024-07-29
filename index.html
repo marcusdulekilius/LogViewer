@@ -10,6 +10,13 @@
 <body>
     <div class="statistics">
         <div class="statistics-header">
+            <div class="hamburger-menu">
+                <i class="material-icons" id="menu-icon">menu</i>
+                <div class="menu-items" id="menu-items">
+                    <a href="#">Log Viewer</a>
+                    <a href="#">Service Status</a>
+                </div>
+            </div>
             <label class="switch">
                 <input type="checkbox" id="theme-toggle-checkbox">
                 <span class="slider"></span>
@@ -41,6 +48,7 @@
             </div>
             <div id="copy-notification">Mesaj Kopyalandı!</div>
             <a href="#" id="download-csv">CSV Olarak İndir</a>
+
         </div>
         <div class="chart-container">
             <canvas id="bar-chart"></canvas>
