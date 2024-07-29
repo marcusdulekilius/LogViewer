@@ -229,18 +229,3 @@ function copyToClipboard(text) {
         notification.style.opacity = 0;
     }, 500);
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    const menuIcon = document.getElementById('menu-icon');
-    const menuItems = document.getElementById('menu-items');
-
-    menuIcon.addEventListener('click', function() {
-        menuItems.style.display = menuItems.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!menuIcon.contains(event.target) && !menuItems.contains(event.target)) {
-            menuItems.style.display = 'none';
-        }
-    });
-});
