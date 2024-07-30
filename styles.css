@@ -9,6 +9,21 @@ body {
     background-color: rgb(255, 255, 255);
 }
 
+h1 {
+    position: absolute;
+    font-size: 1.5em;
+    text-align: left;
+    transition: color 0.4s;
+}
+
+.light-mode h1 {
+    color: #333;
+}
+
+.dark-mode h1 {
+    color: #f4f4f4;
+}
+
 .light-theme {
     background-color: #ffffff;
     color: #000000;
@@ -42,8 +57,8 @@ body {
 */
 .switch {
     position: absolute;
-    top: auto;
-    right: auto 0;
+    top: 33px;
+    right: 22%;
     display: inline-block;
     width: 60px;
     height: 30px;
@@ -366,6 +381,12 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 1200px) {
+
+    h1 {
+        font-size: 1.2em;
+        left: 30px;
+    }
+
     .statistics-header {
         flex-direction: column;
         text-align: center;
@@ -391,6 +412,12 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 768px) {
+
+    h1 {
+        font-size: 1.2em;
+        left: 30px;
+    }
+
     .statistics {
         width: 100%;
         padding: 10px;
@@ -424,6 +451,12 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.2em;
+        left: 30px;
+    }
+
     .statistics-header {
         font-size: 16px;
         margin-top: 10px;

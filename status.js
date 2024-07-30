@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             serviceList.innerHTML = '';
 
-            //Metin kontrol
+            // Metin kontrolü
             const services = Array.isArray(data) ? data : [data];
+
+            let activeCount = 0;
+            let inactiveCount = 0;
 
             services.forEach(service => {
                 const listItem = document.createElement('li');
@@ -25,9 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
 
                 serviceList.appendChild(listItem);
+
+                if (service.service_status) {
+                    activeCount++;
+                } else {
+                    inactiveCount++;
+                }
             });
         })
         .catch(error => {
             console.error('Error fetching service data:', error);
         });
+});
+
+const switchToggle = document.querySelector('.switch input');
+switchToggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
 });

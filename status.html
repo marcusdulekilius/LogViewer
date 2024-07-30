@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Service Status Dashboard</title>
     <link rel="stylesheet" href="status.css">
 </head>
 <body>
     <div class="container">
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle-checkbox">
+            <span class="slider"></span>
+        </label>
         <h1>Service Status Dashboard</h1>
         <ul id="service-list" class="service-list">
         </ul>
     </div>
-
     <script src="status.js"></script>
 </body>
 </html>
