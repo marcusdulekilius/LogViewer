@@ -18,7 +18,7 @@ body {
     background-color: #000000;
     color: #ffffff;
 }
-
+/*
 .menu {
     position: absolute;
     top: 0;
@@ -39,10 +39,11 @@ body {
 .menu a:hover {
     background-color: #575757;
 }
-
+*/
 .switch {
     position: absolute;
-    top: 47px;
+    top: auto;
+    right: auto 0;
     display: inline-block;
     width: 60px;
     height: 30px;
