@@ -74,12 +74,17 @@ h1 {
     color: #ddd;
 }
 
-.chart-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
+.charts-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
+
+.chart-container {
+    width: 45%;
+    margin: 20px 0;
+}
+
 .switch {
     position: absolute;
     top: 45px;
@@ -125,4 +130,18 @@ input:checked + .slider:before {
     content: "\1F319";
     transform: translateX(30px);
     color: #000;
+}
+
+@media (max-width: 768px) {
+    .switch {
+        top: 27px;
+    }
+    
+    h1 {
+        font-size: 1em;
+    }
+
+    .chart-container {
+        width: 100%;
+    }
 }

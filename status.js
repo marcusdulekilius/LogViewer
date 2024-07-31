@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let activeCount = 0;
             let inactiveCount = 0;
             const serverCount = {};
+            const ipRegionsCount = {};
 
             services.forEach(service => {
                 const listItem = document.createElement('li');
@@ -40,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     serverCount[serverName]++;
                 } else {
                     serverCount[serverName] = 1;
+                }
+
+                const ipRegion = service.server_ip ? service.server_ip.split('.')[0] : 'Unknown';
+                if (ipRegionsCount[ipRegion]) {
+                    ipRegionsCount[ipRegion]++;
+                } else {
+                    ipRegionsCount[ipRegion] = 1;
                 }
             });
 
@@ -87,6 +95,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 options: {
                     responsive: true
+                }
+            });
+
+            // Histogram
+            const histogramChartCtx = document.getElementById('histogramChart').getContext('2d');
+
+            new Chart(histogramChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(ipRegionsCount),
+                    datasets: [{
+                        label: 'Number of Services by IP Region',
+                        data: Object.values(ipRegionsCount),
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
             });
         })
