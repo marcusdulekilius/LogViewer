@@ -66,6 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -73,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
-
-            // Pie chart
+            
+            // Pie Chart
             const pieChartCtx = document.getElementById('pieChart').getContext('2d');
             new Chart(pieChartCtx, {
                 type: 'pie',
@@ -94,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }]
                 },
                 options: {
-                    responsive: true
+                    responsive: true,
+                    maintainAspectRatio: false
                 }
             });
 
             // Histogram
             const histogramChartCtx = document.getElementById('histogramChart').getContext('2d');
-
             new Chart(histogramChartCtx, {
                 type: 'bar',
                 data: {
@@ -114,6 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -121,14 +125,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
-        })
-        .catch(error => {
-            console.error('Error fetching service data:', error);
+
+        const switchToggle = document.querySelector('.switch input');
+        switchToggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
         });
 
-    const switchToggle = document.querySelector('.switch input');
-    switchToggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode');
-        document.body.classList.toggle('light-mode');
+        const dots = document.querySelectorAll('.dot-nav .dot');
+        const slides = document.querySelectorAll('.slide');
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.getAttribute('data-index'));
+
+                slides.forEach((slide, i) => {
+                    slide.style.transform = `translateX(-${index * 100}%)`;
+                });
+
+                dots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+            });
+        });
+
+        dots[0].classList.add('active');
     });
-});
+    });

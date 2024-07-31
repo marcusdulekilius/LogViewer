@@ -40,12 +40,44 @@ h1 {
 }
 
 .service-item {
-    border: 1px solid #ddd;
+    border: 2px ridge #ddd;
     border-radius: 8px;
     margin: 10px 0;
     padding: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: background-color 0.4s, border-color 0.4s;
+    transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s, transform 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3), 0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.service-item.active {
+    border-color: #0f0;
+    animation: border-color-cycle 2s infinite;
+}
+
+.service-item.inactive {
+    border-color: #f00;
+}
+
+.service-item:hover {
+    transform: scale(1.05);
+}
+
+@keyframes border-color-cycle {
+    0% {
+        border-color: #0f0;
+    }
+    25% {
+        border-color: #0c0;
+    }
+    50% {
+        border-color: #0a0;
+    }
+    75% {
+        border-color: #080;
+    }
+    100% {
+        border-color: #0f0;
+    }
 }
 
 .light-mode .service-item {
@@ -74,15 +106,50 @@ h1 {
     color: #ddd;
 }
 
-.charts-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.chart-container {
+    width: 100%;
+    height: 400px;
 }
 
-.chart-container {
-    width: 45%;
-    margin: 20px 0;
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.charts-wrapper {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    transition: 0.3s;
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.dot-nav {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 6px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
 }
 
 .switch {
@@ -143,5 +210,9 @@ input:checked + .slider:before {
 
     .chart-container {
         width: 100%;
+    }
+
+    .dot-nav {
+        display: flex;
     }
 }

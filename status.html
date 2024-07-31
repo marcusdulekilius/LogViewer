@@ -14,19 +14,32 @@
             <span class="slider"></span>
         </label>
         <h1>Service Status Dashboard</h1>
-        <div class="charts-wrapper">
-            <div class="chart-container">
-                <canvas id="barChart"></canvas>
+        <div class="slider-wrapper">
+            <div class="charts-wrapper">
+                <div class="slide">
+                    <div class="chart-container">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="chart-container">
+                        <canvas id="histogramChart"></canvas>
+                    </div>
+                </div>
+
             </div>
-            <div class="chart-container">
-                <canvas id="histogramChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="pieChart"></canvas>
+            <div class="dot-nav">
+                <span class="dot" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
             </div>
         </div>
-        <ul id="service-list" class="service-list">
-        </ul>
+        <ul id="service-list" class="service-list"></ul>
     </div>
     <script src="status.js"></script>
 </body>
