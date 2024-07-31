@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Service Status Dashboard</title>
+    <title>Service Status</title>
     <link rel="stylesheet" href="status.css">
 </head>
 <body>
@@ -13,7 +13,16 @@
             <input type="checkbox" id="theme-toggle-checkbox">
             <span class="slider"></span>
         </label>
-        <h1>Service Status Dashboard</h1>
+        <h1>Service Status</h1>
+        <div class="refresh-wrapper">
+            <select id="refresh-interval">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="Durdur">Durdur</option>
+            </select>
+        </div>
         <div class="slider-wrapper">
             <div class="charts-wrapper">
                 <div class="slide">
@@ -31,7 +40,6 @@
                         <canvas id="histogramChart"></canvas>
                     </div>
                 </div>
-
             </div>
             <div class="dot-nav">
                 <span class="dot" data-index="0"></span>
@@ -41,6 +49,7 @@
         </div>
         <ul id="service-list" class="service-list"></ul>
     </div>
+    <!-- <div id="notification" class="notification">Veri yenilendi!</div> -->
     <script src="status.js"></script>
 </body>
 </html>
