@@ -4,183 +4,195 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceList = document.getElementById('service-list');
     const logViewerContainer = document.getElementById('log-viewer-container');
     const arrow = document.getElementById('arrow');
+    const refreshIntervalSelect = document.getElementById('refresh-interval');
 
-    fetch(proxy + apiEndpoint)
-        .then(response => response.json())
-        .then(data => {
-            serviceList.innerHTML = '';
+    function fetchDataAndUpdate() {
+        fetch(proxy + apiEndpoint)
+            .then(response => response.json())
+            .then(data => {
+                serviceList.innerHTML = '';
 
-            const services = Array.isArray(data) ? data : [data];
+                const services = Array.isArray(data) ? data : [data];
 
-            let activeCount = 0;
-            let inactiveCount = 0;
-            const serverCount = {};
-            const ipRegionsCount = {};
+                let activeCount = 0;
+                let inactiveCount = 0;
+                const serverCount = {};
+                const ipRegionsCount = {};
 
-            services.forEach(service => {
-                const listItem = document.createElement('li');
-                listItem.className = 'service-item';
+                services.forEach(service => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'service-item';
 
-                const statusClass = service.service_status ? 'active-status' : 'inactive-status';
-                const statusText = service.service_status ? 'Active' : 'Inactive';
+                    const statusClass = service.service_status ? 'active-status' : 'inactive-status';
+                    const statusText = service.service_status ? 'Active' : 'Inactive';
 
-                listItem.innerHTML = `
-                    <p><strong>Server Name:</strong> ${service.server_name || 'N/A'}</p>
-                    <p><strong>Server IP:</strong> ${service.server_ip || 'N/A'}</p>
-                    <p><strong>Service Name:</strong> ${service.service_name || 'N/A'}</p>
-                    <p><strong>Last Access:</strong> ${service.last_access ? new Date(service.last_access).toLocaleString() : 'N/A'}</p>
-                    <p><strong>Status:</strong> <span class="status-box ${statusClass}">${statusText}</span></p>
-                `;
+                    listItem.innerHTML = `
+                        <p><strong>Server Name:</strong> ${service.server_name || 'N/A'}</p>
+                        <p><strong>Server IP:</strong> ${service.server_ip || 'N/A'}</p>
+                        <p><strong>Service Name:</strong> ${service.service_name || 'N/A'}</p>
+                        <p><strong>Last Access:</strong> ${service.last_access ? new Date(service.last_access).toLocaleString() : 'N/A'}</p>
+                        <p><strong>Status:</strong> <span class="status-box ${statusClass}">${statusText}</span></p>
+                    `;
 
-                serviceList.appendChild(listItem);
+                    serviceList.appendChild(listItem);
 
-                if (service.service_status) {
-                    activeCount++;
-                } else {
-                    inactiveCount++;
-                }
+                    if (service.service_status) {
+                        activeCount++;
+                    } else {
+                        inactiveCount++;
+                    }
 
-                const serverName = service.server_name || 'Unknown';
-                if (serverCount[serverName]) {
-                    serverCount[serverName]++;
-                } else {
-                    serverCount[serverName] = 1;
-                }
+                    const serverName = service.server_name || 'Unknown';
+                    if (serverCount[serverName]) {
+                        serverCount[serverName]++;
+                    } else {
+                        serverCount[serverName] = 1;
+                    }
 
-                const ipRegion = service.server_ip ? service.server_ip.split('.')[0] : 'Unknown';
-                if (ipRegionsCount[ipRegion]) {
-                    ipRegionsCount[ipRegion]++;
-                } else {
-                    ipRegionsCount[ipRegion] = 1;
-                }
-            });
+                    const ipRegion = service.server_ip ? service.server_ip.split('.')[0] : 'Unknown';
+                    if (ipRegionsCount[ipRegion]) {
+                        ipRegionsCount[ipRegion]++;
+                    } else {
+                        ipRegionsCount[ipRegion] = 1;
+                    }
+                });
 
-            // Bar chart
-            const barChartCtx = document.getElementById('barChart').getContext('2d');
-            new Chart(barChartCtx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(serverCount),
-                    datasets: [{
-                        label: 'Number of Services',
-                        data: Object.values(serverCount),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                // Bar chart
+                const barChartCtx = document.getElementById('barChart').getContext('2d');
+                new Chart(barChartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(serverCount),
+                        datasets: [{
+                            label: 'Number of Services',
+                            data: Object.values(serverCount),
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
-            
-            // Pie Chart
-            const pieChartCtx = document.getElementById('pieChart').getContext('2d');
-            new Chart(pieChartCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Active', 'Inactive'],
-                    datasets: [{
-                        data: [activeCount, inactiveCount],
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+                });
+                
+                // Pie Chart
+                const pieChartCtx = document.getElementById('pieChart').getContext('2d');
+                new Chart(pieChartCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Active', 'Inactive'],
+                        datasets: [{
+                            data: [activeCount, inactiveCount],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
 
-            // Histogram
-            const histogramChartCtx = document.getElementById('histogramChart').getContext('2d');
-            new Chart(histogramChartCtx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(ipRegionsCount),
-                    datasets: [{
-                        label: 'Number of Services by IP Region',
-                        data: Object.values(ipRegionsCount),
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                // Histogram
+                const histogramChartCtx = document.getElementById('histogramChart').getContext('2d');
+                new Chart(histogramChartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(ipRegionsCount),
+                        datasets: [{
+                            label: 'Number of Services by IP Region',
+                            data: Object.values(ipRegionsCount),
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
-
-            let isArrowDown = true;
-            arrow.addEventListener('click', function() {
-                if (isArrowDown) {
-                arrow.innerHTML = '&#9650;';
-                } else {
-            arrow.innerHTML = '&#9660;';
-                }
-            
-                isArrowDown = !isArrowDown;
-    });
-            arrow.addEventListener('click', function() {
-                if (logViewerContainer.innerHTML === '') {
-                    const logViewerText = document.createElement('a');
-                    logViewerText.textContent = '\u27A4 Log Viewer';
-                    logViewerText.href = 'index.html';
-                    logViewerText.className = 'log-viewer-link';
-                    logViewerText.style.fontStyle = 'italic';
-                    logViewerText.style.fontWeight = 'bold';
-                    logViewerText.style.marginTop = '10px';
-                    logViewerText.style.textDecoration = 'none';
-                    logViewerText.style.color = 'inherit';
-                    logViewerText.style.cursor = 'pointer';
-                    
-                    logViewerContainer.appendChild(logViewerText);
-                } else {
-                    logViewerContainer.innerHTML = '';
-                }
-            });
-
-            const switchToggle = document.querySelector('.switch input');
-            switchToggle.addEventListener('change', () => {
-                document.body.classList.toggle('dark-mode');
-                document.body.classList.toggle('light-mode');
-            });
-
-            const dots = document.querySelectorAll('.dot-nav .dot');
-            const slides = document.querySelectorAll('.slide');
-
-            dots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = parseInt(dot.getAttribute('data-index'));
-
-                    slides.forEach((slide, i) => {
-                        slide.style.transform = `translateX(-${index * 100}%)`;
-                    });
-
-                    dots.forEach(d => d.classList.remove('active'));
-                    dot.classList.add('active');
                 });
             });
+    }
 
-            dots[0].classList.add('active');
+    fetchDataAndUpdate();
+
+    refreshIntervalSelect.addEventListener('change', function() {
+        const interval = parseInt(this.value);
+
+
+        if (interval > 0) {
+            refreshIntervalId = setInterval(fetchDataAndUpdate, interval * 1000);
+        }
+    });
+
+    let isArrowDown = true;
+    arrow.addEventListener('click', function() {
+        if (isArrowDown) {
+            arrow.innerHTML = '&#9650;';
+        } else {
+            arrow.innerHTML = '&#9660;';
+        }
+        isArrowDown = !isArrowDown;
+
+        if (logViewerContainer.innerHTML === '') {
+            const logViewerText = document.createElement('a');
+            logViewerText.textContent = '\u27A4 Log Viewer';
+            logViewerText.href = 'index.html';
+            logViewerText.className = 'log-viewer-link';
+            logViewerText.style.fontStyle = 'italic';
+            logViewerText.style.fontWeight = 'bold';
+            logViewerText.style.marginTop = '10px';
+            logViewerText.style.textDecoration = 'none';
+            logViewerText.style.color = 'inherit';
+            logViewerText.style.cursor = 'pointer';
+            
+            logViewerContainer.appendChild(logViewerText);
+        } else {
+            logViewerContainer.innerHTML = '';
+        }
+    });
+
+    const switchToggle = document.querySelector('.switch input');
+    switchToggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+        document.body.classList.toggle('light-mode');
+    });
+
+    const dots = document.querySelectorAll('.dot-nav .dot');
+    const slides = document.querySelectorAll('.slide');
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.getAttribute('data-index'));
+
+            slides.forEach((slide, i) => {
+                slide.style.transform = `translateX(-${index * 100}%)`;
+            });
+
+            dots.forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
         });
+    });
+
+    dots[0].classList.add('active');
 });
