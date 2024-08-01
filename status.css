@@ -30,6 +30,16 @@ h1 {
     color: #bebebe;
 }
 
+.log-viewer-link {
+    font-size: 1.5em;
+}
+
+@media (max-width: 767px) {
+    .log-viewer-link {
+        font-size: 0.9em;
+    }
+}
+
 .refresh-wrapper {
     display: flex;
     align-items: center;
@@ -51,10 +61,14 @@ h1 {
 .service-list {
     list-style-type: none;
     padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .service-item {
-    border: 2px ridge #ddd;
+    flex: 1 1 calc(25% - 10px);
+    border: 14px ridge #ddd;
     border-radius: 8px;
     margin: 10px 0;
     padding: 15px;
@@ -63,35 +77,14 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3), 0 0 30px rgba(0, 255, 0, 0.2);
 }
 
-.service-item.active {
-    border-color: #0f0;
-    animation: border-color-cycle 2s infinite;
-}
-
-.service-item.inactive {
-    border-color: #f00;
-}
-
 .service-item:hover {
     transform: scale(1.05);
 }
 
-@keyframes border-color-cycle {
-    0% {
-        border-color: #0f0;
-    }
-    25% {
-        border-color: #0c0;
-    }
-    50% {
-        border-color: #0a0;
-    }
-    75% {
-        border-color: #080;
-    }
-    100% {
-        border-color: #0f0;
-    }
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .light-mode .service-item {
@@ -118,6 +111,23 @@ h1 {
 
 .dark-mode .service-item strong {
     color: #ddd;
+}
+
+.active-status {
+    font-weight: bold;
+    font-style: italic;
+    color: green;
+    animation: blink 1s infinite;
+}
+
+.inactive-status {
+    font-weight: bold;
+    font-style: italic;
+    color: red;
+}
+
+.dark-mode .active-status {
+    color:#0f0;
 }
 
 .chart-container {
@@ -213,6 +223,20 @@ input:checked + .slider:before {
     color: #000;
 }
 
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: purple;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
 @media (max-width: 768px) {
     .switch {
         top: 27px;
@@ -228,5 +252,9 @@ input:checked + .slider:before {
 
     .dot-nav {
         display: flex;
+    }
+
+    .service-item {
+        flex: 1 1 100%;
     }
 }

@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     const apiEndpoint = 'http://158.101.165.104/api/service-status-detail';
     const serviceList = document.getElementById('service-list');
+    const logViewerContainer = document.getElementById('log-viewer-container');
+    const arrow = document.getElementById('arrow');
 
     fetch(proxy + apiEndpoint)
         .then(response => response.json())
@@ -19,13 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const listItem = document.createElement('li');
                 listItem.className = 'service-item';
 
+                const statusClass = service.service_status ? 'active-status' : 'inactive-status';
+                const statusText = service.service_status ? 'Active' : 'Inactive';
+
                 listItem.innerHTML = `
-                    <p><strong>Service ID:</strong> ${service.service_id || 'N/A'}</p>
                     <p><strong>Server Name:</strong> ${service.server_name || 'N/A'}</p>
                     <p><strong>Server IP:</strong> ${service.server_ip || 'N/A'}</p>
                     <p><strong>Service Name:</strong> ${service.service_name || 'N/A'}</p>
-                    <p><strong>Status:</strong> ${service.service_status ? 'Active' : 'Inactive'}</p>
                     <p><strong>Last Access:</strong> ${service.last_access ? new Date(service.last_access).toLocaleString() : 'N/A'}</p>
+                    <p><strong>Status:</strong> <span class="status-box ${statusClass}">${statusText}</span></p>
                 `;
 
                 serviceList.appendChild(listItem);
@@ -126,28 +130,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-        const switchToggle = document.querySelector('.switch input');
-        switchToggle.addEventListener('change', () => {
-            document.body.classList.toggle('dark-mode');
-            document.body.classList.toggle('light-mode');
-        });
-
-        const dots = document.querySelectorAll('.dot-nav .dot');
-        const slides = document.querySelectorAll('.slide');
-
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const index = parseInt(dot.getAttribute('data-index'));
-
-                slides.forEach((slide, i) => {
-                    slide.style.transform = `translateX(-${index * 100}%)`;
-                });
-
-                dots.forEach(d => d.classList.remove('active'));
-                dot.classList.add('active');
+            let isArrowDown = true;
+            arrow.addEventListener('click', function() {
+                if (isArrowDown) {
+                arrow.innerHTML = '&#9650;';
+                } else {
+            arrow.innerHTML = '&#9660;';
+                }
+            
+                isArrowDown = !isArrowDown;
+    });
+            arrow.addEventListener('click', function() {
+                if (logViewerContainer.innerHTML === '') {
+                    const logViewerText = document.createElement('a');
+                    logViewerText.textContent = '\u27A4 Log Viewer';
+                    logViewerText.href = 'index.html';
+                    logViewerText.className = 'log-viewer-link';
+                    logViewerText.style.fontStyle = 'italic';
+                    logViewerText.style.fontWeight = 'bold';
+                    logViewerText.style.marginTop = '10px';
+                    logViewerText.style.textDecoration = 'none';
+                    logViewerText.style.color = 'inherit';
+                    logViewerText.style.cursor = 'pointer';
+                    
+                    logViewerContainer.appendChild(logViewerText);
+                } else {
+                    logViewerContainer.innerHTML = '';
+                }
             });
-        });
 
-        dots[0].classList.add('active');
-    });
-    });
+            const switchToggle = document.querySelector('.switch input');
+            switchToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode');
+                document.body.classList.toggle('light-mode');
+            });
+
+            const dots = document.querySelectorAll('.dot-nav .dot');
+            const slides = document.querySelectorAll('.slide');
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.getAttribute('data-index'));
+
+                    slides.forEach((slide, i) => {
+                        slide.style.transform = `translateX(-${index * 100}%)`;
+                    });
+
+                    dots.forEach(d => d.classList.remove('active'));
+                    dot.classList.add('active');
+                });
+            });
+
+            dots[0].classList.add('active');
+        });
+});

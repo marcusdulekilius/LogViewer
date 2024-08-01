@@ -230,7 +230,6 @@ function copyToClipboard(text) {
     }, 500);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
     const menuIcon = document.getElementById('menu-icon');
     const menuItems = document.getElementById('menu-items');
 
@@ -242,5 +241,4 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!menuIcon.contains(event.target) && !menuItems.contains(event.target)) {
             menuItems.style.display = 'none';
         }
-    });
 });

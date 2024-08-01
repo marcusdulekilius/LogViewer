@@ -13,14 +13,18 @@
             <input type="checkbox" id="theme-toggle-checkbox">
             <span class="slider"></span>
         </label>
-        <h1>Service Status</h1>
+        <h1>
+            Service Status
+            <span id="arrow" class="arrow">&#9660;</span>
+        </h1>
+        <div id="log-viewer-container"></div>
         <div class="refresh-wrapper">
             <select id="refresh-interval">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
-                <option value="Durdur">Durdur</option>
+                <option value="0">Durdur</option>
             </select>
         </div>
         <div class="slider-wrapper">
@@ -49,7 +53,7 @@
         </div>
         <ul id="service-list" class="service-list"></ul>
     </div>
-    <!-- <div id="notification" class="notification">Veri yenilendi!</div> -->
+    <div id="notification" class="notification">Veri Yenilendi!</div>
     <script src="status.js"></script>
 </body>
 </html>
